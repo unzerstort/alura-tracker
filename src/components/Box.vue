@@ -1,7 +1,7 @@
 <template>
-  <div class="box has-text-weight-bold">
-    <slot></slot>
-  </div>
+	<div class="box has-text-weight-bold">
+		<slot></slot>
+	</div>
 </template>
 
 <script lang="ts">
@@ -9,15 +9,15 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Box",
+	name: "Box",
 
 });
 </script>
 
 <style scoped>
 .box {
-  color: var(--texto-primario);
-  background-color: var(--bg-secundario);
-  
+	color: var(--texto-primario);
+	background-color: var(--bg-secundario);
+
 }
 </style>
