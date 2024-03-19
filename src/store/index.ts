@@ -13,12 +13,16 @@ export const store = createStore<Estado>({
         projetos: []
     },
     mutations: {
-        'ADICIONA_PROJETO'(state, nomeProjeto: string) {
+        'ADICIONA_PROJETO' (state, nomeProjeto: string) {
             const projeto = {
                 id: new Date().toISOString(),
                 nome: nomeProjeto
-            } as IProjeto
-            state.projetos.push(projeto)
+            } as IProjeto;
+            state.projetos.push(projeto);
+        }, 
+        'ALTERA_PROJETO' (state, projeto: IProjeto) {
+            const index = state.projetos.findIndex(proj => proj.id == projeto.id);
+            state.projetos[index] = projeto;
         }
     }
 });

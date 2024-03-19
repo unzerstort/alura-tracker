@@ -1,19 +1,12 @@
 <template>
     <section class="projetos">
         <h1 class="title">Projetos</h1>
-        <form @submit.prevent="salvar">
-            <div class="field">
-                <label for="nomeProjeto" class="label">
-                    Nome do Projeto
-                </label>
-                <input type="text" class="input" v-model="nomeProjeto" id="nomeProjeto" />
-            </div>
-            <div class="field">
-                <button class="button" type="submit">
-                    Salvar
-                </button>
-            </div>
-        </form>
+        <router-link to="/projetos/novo" class="button">
+            <span class="icon is-small">
+                <i class="fas fa-plus"></i>
+            </span>
+            <span>Novo projeto</span>
+        </router-link>
 
         <table class="table is-fullwidth">
             <thead>
@@ -24,6 +17,9 @@
                     <th>
                         Nome
                     </th>
+                    <th>
+                        Ações
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +29,13 @@
                     </td>
                     <td>
                         {{ projeto.nome }}
+                    </td>
+                    <td>
+                        <router-link :to="`/projetos/${projeto.id}`" class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-pencil-alt"></i>
+                            </span>
+                        </router-link>
                     </td>
                 </tr>
             </tbody>
@@ -46,21 +49,10 @@ import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
     name: "ProjetosView",
-    data() {
-        return {
-            nomeProjeto: '',
-        };
-    },
-    methods: {
-        salvar() {
-            this.store.commit('ADICIONA_PROJETO', this.nomeProjeto);
-            this.nomeProjeto = '';
-        }
-    },
+
     setup() {
         const store = useStore();
         return {
-            store,
             projetos: computed(() => store.state.projetos)
         }
     },
