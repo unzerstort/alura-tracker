@@ -1,6 +1,7 @@
 import IProjeto from "@/interfaces/IProjeto";
 import { InjectionKey } from "vue";
 import { Store, createStore, useStore as vuexUseStore } from "vuex";
+import { ADICIONA_PROJETO, ALTERA_PROJETO, EXCLUI_PROJETO } from "./tipo-mutacoes";
 
 interface Estado {
     projetos: IProjeto[];
@@ -13,16 +14,19 @@ export const store = createStore<Estado>({
         projetos: []
     },
     mutations: {
-        'ADICIONA_PROJETO' (state, nomeProjeto: string) {
+        [ADICIONA_PROJETO] (state, nomeProjeto: string) {
             const projeto = {
                 id: new Date().toISOString(),
                 nome: nomeProjeto
             } as IProjeto;
             state.projetos.push(projeto);
         }, 
-        'ALTERA_PROJETO' (state, projeto: IProjeto) {
+        [ALTERA_PROJETO] (state, projeto: IProjeto) {
             const index = state.projetos.findIndex(proj => proj.id == projeto.id);
             state.projetos[index] = projeto;
+        },
+        [EXCLUI_PROJETO] (state, id: string) {
+            state.projetos = state.projetos.filter(proj => proj.id != id);
         }
     }
 });
