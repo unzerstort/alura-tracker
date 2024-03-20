@@ -50,7 +50,7 @@ export const store = createStore<Estado>({
             state.notificacoes.push(novaNotificacao);
 
             setTimeout(() => {
-                state.notificacoes.filter(notificacao => notificacao.id != novaNotificacao.id)
+                state.notificacoes = state.notificacoes.filter(notificacao => notificacao.id != novaNotificacao.id)
             }, 2000)
         }
     }
