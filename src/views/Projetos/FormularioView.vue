@@ -61,4 +61,4 @@ export default defineComponent({
     },
 })
 
-</script>import { ALTERA_PROJETO, ADICIONA_PROJETO } from '@/store/tipo-mutacoes';
+</script>
