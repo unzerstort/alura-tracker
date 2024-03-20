@@ -19,9 +19,9 @@
 <script lang="ts">
 import { TipoNotificacao } from '@/interfaces/INotificacao';
 import { useStore } from '@/store';
-import { ADICIONA_PROJETO, ALTERA_PROJETO } from '@/store/tipo-mutacoes';
 import { defineComponent } from 'vue';
 import useNotificador from '@/hooks/notificador';
+import { ALTERAR_PROJETO, CADASTRAR_PROJETO } from '@/store/tipo-acoes';
 
 export default defineComponent({
     name: "FormularioView",
@@ -32,7 +32,7 @@ export default defineComponent({
     },
     mounted() {
         if (this.id) {
-            const projeto = this.store.state.projetos.find(proj => proj.id == this.id);
+            const projeto = this.store.state.projeto.projetos.find((proj)=> proj.id == this.id);
             this.nomeProjeto = projeto?.nome || '';
         }
     },
@@ -44,17 +44,20 @@ export default defineComponent({
     methods: {
         salvar() {
             if (this.id) {
-                this.store.commit(ALTERA_PROJETO, {
+                this.store.dispatch(ALTERAR_PROJETO, {
                     id: this.id,
                     nome: this.nomeProjeto
-                });
+                }).then(() => this.lidarComSucesso());
             } else {
-                this.store.commit(ADICIONA_PROJETO, this.nomeProjeto);
+                this.store.dispatch(CADASTRAR_PROJETO, this.nomeProjeto)
+                .then(() => this.lidarComSucesso());
             }
+        },
+        lidarComSucesso() {
             this.nomeProjeto = '';
             this.notificar(TipoNotificacao.SUCESSO, 'Excelente!', 'O projeto foi cadastrado com sucesso!');
             this.$router.push('/projetos');
-        },
+        }
     },
     setup() {
         const store = useStore();

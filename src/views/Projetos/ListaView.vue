@@ -49,8 +49,7 @@
 
 <script lang="ts">
 import { useStore } from '@/store';
-import { OBTER_PROJETOS } from '@/store/tipo-acoes';
-import { EXCLUI_PROJETO } from '@/store/tipo-mutacoes';
+import { OBTER_PROJETOS, REMOVER_PROJETO } from '@/store/tipo-acoes';
 import { computed, defineComponent } from 'vue';
 import { RouterLink } from 'vue-router';
 
@@ -58,7 +57,7 @@ export default defineComponent({
     name: "ListaView",
     methods: {
         excluir (id: string) {
-            this.store.commit(EXCLUI_PROJETO, id)
+            this.store.dispatch(REMOVER_PROJETO, id)
         }
     },
     setup() {
@@ -66,7 +65,7 @@ export default defineComponent({
         store.dispatch(OBTER_PROJETOS);
         
         return {
-            projetos: computed(() => store.state.projetos),
+            projetos: computed(() => store.state.projeto.projetos),
             store
         }
     },
