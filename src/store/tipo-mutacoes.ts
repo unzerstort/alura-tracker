@@ -5,3 +5,5 @@ export const EXCLUI_PROJETO = 'EXCLUI_PROJETO';
 export const ADICIONA_TAREFA = 'ADICIONA_TAREFA';
 export const ALTERA_TAREFA = 'ALTERA_TAREFA';
 export const EXCLUI_TAREFA = 'EXCLUI_TAREFA';
+
+export const NOTIFICAR = 'NOTIFICAR';

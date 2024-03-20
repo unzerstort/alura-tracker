@@ -37,11 +37,13 @@ export default defineComponent({
 		return {
 			descricao: '',
 			idProjeto: '',
+			idTarefa: ''
 		}
 	},
 	methods: {
 		finalizarTarefa(tempoDecorrido: number): void {
 			this.$emit('aoSalvarTarefa', {
+				id: this.idTarefa,
 				duracaoEmSegundos: tempoDecorrido,
 				descricao: this.descricao,
 				projeto: this.projetos.find(proj => proj.id == this.idProjeto)
