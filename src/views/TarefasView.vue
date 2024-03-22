@@ -4,6 +4,14 @@
         <Box v-if="listaEstaVazia">
             Você não está muito produtivo hoje. :/
         </Box>
+        <div class="field">
+            <p class="control has-icons-left is-large">
+                <input class="input" type="texto" placeholder="Digite para filtrar" v-model="filtro" />
+                <span class="icon is-small is-left">
+                    <i class="fas fa-search"></i>
+                </span>
+            </p>
+        </div>
         <TarefaRealizada v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa"
             @aoTarefaClicada="selecionarTarefa" />
         <div class="modal" :class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada">
@@ -19,7 +27,8 @@
                             <label for="descricaoTarefa" class="label">
                                 Descrição
                             </label>
-                            <input type="text" class="input" v-model="tarefaSelecionada.descricao" id="descricaoTarefa" />
+                            <input type="text" class="input" v-model="tarefaSelecionada.descricao"
+                                id="descricaoTarefa" />
                         </div>
                     </form>
                 </section>
@@ -33,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref, watchEffect } from 'vue';
 import FormularioTarefa from '../components/FormularioTarefa.vue';
 import TarefaRealizada from '../components/TarefaRealizada.vue'
 import Box from '../components/Box.vue';
@@ -79,9 +88,16 @@ export default defineComponent({
         store.dispatch(OBTER_TAREFAS);
         store.dispatch(OBTER_PROJETOS);
 
+        const filtro = ref('');
+
+        watchEffect(() => {
+            store.dispatch(OBTER_TAREFAS, filtro.value);
+        })
+
         return {
             tarefas: computed(() => store.state.tarefa.tarefas),
-            store
+            store,
+            filtro
         }
     },
 
