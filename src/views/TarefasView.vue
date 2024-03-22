@@ -14,37 +14,34 @@
         </div>
         <TarefaRealizada v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa"
             @aoTarefaClicada="selecionarTarefa" />
-        <div class="modal" :class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Editando uma Tarefa</p>
-                    <button class="delete" aria-label="close" @click="fecharModal"></button>
-                </header>
-                <section class="modal-card-body">
-                    <form @submit.prevent="">
-                        <div class="field">
-                            <label for="descricaoTarefa" class="label">
-                                Descrição
-                            </label>
-                            <input type="text" class="input" v-model="tarefaSelecionada.descricao"
-                                id="descricaoTarefa" />
-                        </div>
-                    </form>
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button is-success" type="submit" @click="alterarTarefa">Salvar alterações</button>
-                    <button class="button" @click="fecharModal">Cancelar</button>
-                </footer>
-            </div>
-        </div>
+        <ModalEdicao :mostrar="tarefaSelecionada != null">
+            <template v-slot:header>
+                <p class="modal-card-title">Editando uma Tarefa</p>
+                <button class="delete" aria-label="close" @click="fecharModal"></button>
+            </template>
+            <template v-slot:body>
+                <form @submit.prevent="">
+                    <div class="field">
+                        <label for="descricaoTarefa" class="label">
+                            Descrição
+                        </label>
+                        <input type="text" class="input" v-model="tarefaSelecionada.descricao" id="descricaoTarefa" />
+                    </div>
+                </form>
+            </template>
+            <template v-slot:footer>
+                <button class="button is-success" type="submit" @click="alterarTarefa">Salvar alterações</button>
+                <button class="button" @click="fecharModal">Cancelar</button>
+            </template>
+        </ModalEdicao>
     </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref, watchEffect } from 'vue';
 import FormularioTarefa from '../components/FormularioTarefa.vue';
-import TarefaRealizada from '../components/TarefaRealizada.vue'
+import TarefaRealizada from '../components/TarefaRealizada.vue';
+import ModalEdicao from '@/components/ModalEdicao.vue';
 import Box from '../components/Box.vue';
 import { useStore } from '@/store';
 import { ALTERAR_TAREFA, CADASTRAR_TAREFA, OBTER_TAREFAS } from '@/store/tipo-acoes';
@@ -57,6 +54,7 @@ export default defineComponent({
         FormularioTarefa,
         TarefaRealizada,
         Box,
+        ModalEdicao
     },
     data() {
         return {
@@ -97,7 +95,7 @@ export default defineComponent({
         return {
             tarefas: computed(() => store.state.tarefa.tarefas),
             store,
-            filtro
+            filtro,
         }
     },
 
